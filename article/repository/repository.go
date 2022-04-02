@@ -15,3 +15,7 @@ type Repository interface {
 	DeleteArticle(ctx context.Context, id int64) error
 	SelectArticles() (*sql.Rows, error)
 }
+
+type sqliteRepo struct {
+	db *sql.DB
+}
