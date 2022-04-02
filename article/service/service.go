@@ -26,6 +26,24 @@ func NewService(r repository.Repository) Service {
 
 func (s *service) CreateArticle(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleResponse, error) {
 	// 記事のCreateの処理を記述する
+	// Insertする記事のInput(Author, Title, Content)を取得する
+	input := req.GetArticleInput()
+
+	// 記事をDBにInsertしてInsertした記事のIDを返す
+	id, err := s.repository.InsertArticle(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	// Insertした記事をレスポンスとして返す
+	return &pb.CreateArticleResponse{
+		Article: &pb.Article{
+			Id: id,
+			Author: input.Author,
+			Title: input.Title,
+			Content: input.Content,
+		},
+	}, nil
 }
 
 func (s *service) ReadArticle(ctx context.Context, req *pb.ReadArticleRequest) (*pb.ReadArticleResponse, error) {
