@@ -19,3 +19,22 @@ type Repository interface {
 type sqliteRepo struct {
 	db *sql.DB
 }
+
+func NewsqliteRepo() (Repository, error) {
+	db, err := sql.Open("sqlite3", "./article/article.sql")
+	if err != nil {
+		return nil, err
+	}
+	cmd := `CREATE TABLE IF NOT EXISTS articles(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		author STRING,
+		title STRING,
+		content STRING)`
+
+	_, err = db.Exec(cmd)
+	if err != nil {
+		return nil, err
+	}
+	return &sqlliteRepo{db}, nil
+}
+
