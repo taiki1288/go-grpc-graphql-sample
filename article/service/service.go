@@ -18,3 +18,8 @@ type Service interface {
 type service struct {
 	repository repository.Repository
 }
+
+// Serviceを初期化
+func NewService(r repository.Repository) Service {
+	return &service{r}
+}
