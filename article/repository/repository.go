@@ -35,6 +35,25 @@ func NewsqliteRepo() (Repository, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &sqlliteRepo{db}, nil
+	return &sqliteRepo{db}, nil
 }
 
+func (r *sqliteRepo) InsertArticle(ctx context.Context, input *pb.ArticleInput) (int64, error) {
+	// DBに記事をInsertする処理を記述する
+}
+
+func (r *sqliteRepo) SelectArticleByID(ctx context.Context, id int64) (*pb.Article, error) {
+	// DBからIDに基づいて記事をSELECTする処理を記述する
+}
+
+func (r *sqliteRepo) UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput) error {
+	// DB内の記事をUpdateする処理を記述する
+}
+
+func (r *sqliteRepo) DeleteArticle(ctx context.Context, id int64) error {
+	// DB内の記事をDeleteする処理を記述する
+}
+
+func (r *sqliteRepo) SelectArticles() (*sql.Rows, error) {
+	// Articleテーブルの記事を全取得する処理を記述する
+}
