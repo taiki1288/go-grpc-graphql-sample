@@ -94,6 +94,15 @@ func (s *service) UpdateArticle(ctx context.Context, req *pb.UpdateArticleReques
 
 func (s *service) DeleteArticle(ctx context.Context, req *pb.DeleteArticleRequest) (*pb.DeleteArticleResponse, error) {
 	// 記事のDelete処理を記述
+	id := req.GetId()
+
+	// 該当IDの記事をDelete
+	if err := s.repository.DeleteArticle(ctx, id); err != nil {
+		return nil, err
+	}
+
+	// Deleteした記事のIDをレスポンスとして返す
+	return &pb.DeleteArticleResponse{Id: id}, nil
 }
 
 func (s *service) ListArticle(req *pb.ListArticleRequest, stream pb.ArticleService_ListArticleServer) error {
