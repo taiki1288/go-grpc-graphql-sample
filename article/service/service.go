@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/taiki1288/go-grpc-graphql-sample/article/pb"
+	"github.com/taiki1288/go-grpc-graphql-sample/article/repository"
 )
 
 type Service interface {
@@ -12,4 +13,8 @@ type Service interface {
 	UpdateArticle(ctx context.Context, req *pb.UpdateArticleRequest) (*pb.UpdateArticleResponse, error)
 	DeleteArticle(ctx context.Context, req *pb.DeleteArticleRequest) (*pb.DeleteArticleResponse, error)
 	ListArticle(req *pb.ListArticleRequest, stream pb.ArticleService_ListArticleServer) error
+}
+
+type service struct {
+	repository repository.Repository
 }
