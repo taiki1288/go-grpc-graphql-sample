@@ -9,6 +9,7 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/mattn/go-sqlite3 v1.14.12 // indirect
 	golang.org/x/net v0.0.0-20220401154927-543a649e0bdd // indirect
 	golang.org/x/sys v0.0.0-20220330033206-e17cdc41300f // indirect
 	golang.org/x/text v0.3.7 // indirect
