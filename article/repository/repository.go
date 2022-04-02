@@ -40,10 +40,38 @@ func NewsqliteRepo() (Repository, error) {
 
 func (r *sqliteRepo) InsertArticle(ctx context.Context, input *pb.ArticleInput) (int64, error) {
 	// DBに記事をInsertする処理を記述する
+	// Inputの内容(Author, Title, Content)をArticleテーブルにInsertする
+	cmd := `INSERT INTO articles(author, title, content) VALUES (?, ?, ?)`
+	result, err := r.db.Exec(cmd, input.Author, input.Title, input.Content)
+	if err != nil {
+		return 0, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, nil
+	}
+	return id, nil
 }
 
 func (r *sqliteRepo) SelectArticleByID(ctx context.Context, id int64) (*pb.Article, error) {
 	// DBからIDに基づいて記事をSELECTする処理を記述する
+	cmd := `SELECT * FROM articles WHERE id = ?`
+	row := r.db.QueryRow(cmd, id)
+	var a pb.Article
+
+	// SELECTした記事の内容を読み取る
+	err := row.Scan(&a.Id, &a.Author, &a.Title, &a.Content)
+	if err != nil {
+		return nil, err
+	}
+
+	// SELECTした記事を返す
+	return &pb.Article{
+		Id: a.Id, 
+		Author: a.Author, 
+		Title: a.Title, 
+		Content: a.Content,
+	}, nil
 }
 
 func (r *sqliteRepo) UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput) error {
